@@ -9,15 +9,14 @@ public class ReadCSV {
         File CSVFile = new File(FILE_PATH);
 
         try {
-
             String fileLines = new String();
 
-            Scanner reader = new Scanner(CSVFile);
+            try (Scanner reader = new Scanner(CSVFile)) {
+                while (reader.hasNext()) {
+                    fileLines = reader.nextLine();
 
-            while (reader.hasNext()) {
-                fileLines = reader.nextLine();
-
-                System.out.println(fileLines);
+                    System.out.println(fileLines);
+                }
             }
 
         } catch (FileNotFoundException e) {
