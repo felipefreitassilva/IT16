@@ -1,27 +1,33 @@
 package Etapa2.Testes;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class ReadCSV {
     public static void main(String[] args) {
-        final String FILE_PATH = "C:/Users/felip/Desktop/log/PUCRS/IT16/Etapa2/TA_PRECO_MEDICAMENTO.csv";
-        File CSVFile = new File(FILE_PATH);
+        final String FILE_PATH = "https://dados.anvisa.gov.br/dados/TA_PRECO_MEDICAMENTO.csv";
+        File csvFile = new File(FILE_PATH);
 
         try {
-            String fileLines = new String();
+            int lineNumber = 1;
+            String fileLine = "";
+            String[] fileLineContent;
 
-            try (Scanner reader = new Scanner(CSVFile)) {
-                while (reader.hasNext()) {
-                    fileLines = reader.nextLine();
+            try (Scanner reader = new Scanner(csvFile)) {
+                while (reader.hasNext() && lineNumber <= 2) {
+                    fileLine = reader.nextLine();
+                    fileLineContent = fileLine.split(";");
 
-                    System.out.println(fileLines);
+                    System.out.println("\nLine " + lineNumber + ": " + fileLine);
+                    for (int i = 0; i < fileLineContent.length; i++) {
+                        System.out.println("Column " + i + ": " + fileLineContent[i]);
+                    }
+                    lineNumber++;
                 }
             }
 
-        } catch (FileNotFoundException e) {
-            
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
         }
-
     }
 }
