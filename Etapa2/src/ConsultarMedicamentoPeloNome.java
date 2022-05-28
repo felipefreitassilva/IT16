@@ -5,17 +5,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-/*
-    IMPORTANTE
-    LEMBRAR DE USAR .CONTAINS()
-*/
 public class ConsultarMedicamentoPeloNome {
+
+    // main method that looks for the medicine according to an user input
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        consultarMedicamento(nomeMedicamento(input));
+
+        lookForMedicine(medicineName(input));
     }
 
-    private static String nomeMedicamento(Scanner input) {
+    // method to ask for the name of the medicine
+    private static String medicineName(Scanner input) {
+
         String nomeMedicamento;
 
         System.out.print("Digite o nome do medicamento: ");
@@ -24,42 +25,52 @@ public class ConsultarMedicamentoPeloNome {
         return nomeMedicamento;
     }
 
-    public static void consultarMedicamento(String name) {
+    // method that scans the csv file for the medicine acording to its name
+    private static void lookForMedicine(String medicineName) {
 
         final String FILE_PATH = "D:/Programming/GitHub/IT16/Etapa2/TA_PRECO_MEDICAMENTO.csv";
-        File arquivoCSV = new File(FILE_PATH);
+        File csvfile = new File(FILE_PATH);
 
         try {
-            String fileLine = "";
-            boolean haMedicamento = false;
+            String fileLine;
+            String regex = ";";
+            String[] fileLineContent;
+            int medicineNumber = 1;
+            boolean foundMedicine = false;
 
-            try (Scanner reader = new Scanner(arquivoCSV)) {
-                // Skip header
+            try (Scanner reader = new Scanner(csvfile)) {
+                // skip header when scanning
                 reader.nextLine();
 
-                // While there are lines to be read
                 while (reader.hasNext()) {
                     fileLine = reader.nextLine();
+                    fileLineContent = fileLine.split(regex);
 
-                    String[] valoresEntreVirgulas = fileLine.split(";");
-
-                    System.out.println("/===================================================\\");
-                    System.out.println("| Dados do medicamento " + name);
-                    System.out.println("| Nome: " + valoresEntreVirgulas[0]);
-                    System.out.println("| Produto: " + valoresEntreVirgulas[9]);
-                    System.out.println("| Apresentação: " + valoresEntreVirgulas[10]);
-                    System.out.println("| Valor PF Sem Impostos: " + valoresEntreVirgulas[14]);
-                    System.out.println("\\===================================================/");
-                    haMedicamento = true;
+                    // if the file line contains the medicine and it was produced in 2020
+                    if ((fileLineContent[0].contains(medicineName.toUpperCase()))
+                            && (fileLineContent[38].contains("Sim"))) {
+                        medicineInfo(medicineNumber, fileLineContent, medicineName);
+                        foundMedicine = true;
+                        medicineNumber++;
+                    }
                 }
 
-                if (!haMedicamento) {
-                    System.out.println("Infelizmente, não há medicamentos.");
+                if (!foundMedicine) {
+                    System.out.printf("Infelizmente, não foram encontrados medicamentos por \"%s\".", medicineName);
                 }
-
             }
-        } catch (FileNotFoundException e) {
+
+        } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    // method that displays more information on the medicine
+    private static void medicineInfo(int medicineNumber, String[] fileLineContent, String medicineName) {
+        System.out.printf("%n Dados do %dº medicamento encontrado por \"%s\" %n", medicineNumber, medicineName);
+        System.out.println("| Nome: " + fileLineContent[0]);
+        System.out.println("| Produto: " + fileLineContent[8]);
+        System.out.println("| Apresentação: " + fileLineContent[9]);
+        System.out.println("| Valor PF Sem Impostos: R$ 6" + fileLineContent[13]);
     }
 }
