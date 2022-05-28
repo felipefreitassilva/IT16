@@ -5,7 +5,9 @@ import java.util.Scanner;
 
 public class ReadCSV {
     public static void main(String[] args) {
-        final String FILE_PATH = "https://dados.anvisa.gov.br/dados/TA_PRECO_MEDICAMENTO.csv";
+        // final String FILE_PATH =
+        // "https://dados.anvisa.gov.br/dados/TA_PRECO_MEDICAMENTO.csv";
+        final String FILE_PATH = "D:/Programming/GitHub/IT16/Etapa2/TA_PRECO_MEDICAMENTO.csv";
         File csvFile = new File(FILE_PATH);
 
         try {
