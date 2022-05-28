@@ -1,7 +1,7 @@
-package Etapa2.src;
+package Etapa2.Main.src;
 
 public class ComparativoDaListaDeConcessaoDeCreditoTributarioPISCOFINS {
-    public static void main(String[] args) {
+    public void compare() {
         System.out.println("ComparativoDaListaDeConcessaoDeCreditoTributarioPISCOFINS");
     }
 }
