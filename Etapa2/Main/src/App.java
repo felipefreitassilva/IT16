@@ -23,14 +23,14 @@ public class App {
 
     // gets user choice from the menu
     private int menuChoice() {
-        try (Scanner input = new Scanner(System.in)) {
-            int choice;
+        Scanner input = new Scanner(System.in);
 
-            menuInterface();
-            choice = input.nextInt();
+        int choice;
 
-            return choice;
-        }
+        menuInterface();
+        choice = input.nextInt();
+
+        return choice;
     }
 
     // displays the interface with all menu options
