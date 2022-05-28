@@ -1,32 +1,26 @@
-package Etapa2.src;
+package Etapa2.Main.src;
 
-// Imports
+// imports for reading the csv file and user input
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class ConsultarMedicamentoPeloNome {
 
-    // main method that looks for the medicine according to an user input
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-
-        lookForMedicine(medicineName(input));
-    }
-
     // method to ask for the name of the medicine
-    private static String medicineName(Scanner input) {
+    private String medicineName() {
+        String medicineName;
 
-        String nomeMedicamento;
+        try (Scanner input = new Scanner(System.in)) {
+            System.out.print("Digite o nome do medicamento: ");
+            medicineName = input.nextLine();
+        }
 
-        System.out.print("Digite o nome do medicamento: ");
-        nomeMedicamento = input.nextLine();
-
-        return nomeMedicamento;
+        return medicineName;
     }
 
     // method that scans the csv file for the medicine acording to its name
-    private static void lookForMedicine(String medicineName) {
+    public void lookForMedicine() {
+        String medicineName = medicineName();
 
         final String FILE_PATH = "D:/Programming/GitHub/IT16/Etapa2/TA_PRECO_MEDICAMENTO.csv";
         File csvfile = new File(FILE_PATH);
@@ -56,17 +50,17 @@ public class ConsultarMedicamentoPeloNome {
                 }
 
                 if (!foundMedicine) {
-                    System.out.printf("Infelizmente, não foram encontrados medicamentos por \"%s\".", medicineName);
+                    System.out.printf("Infelizmente, não foram encontrados medicamentos por \"%s\".%n", medicineName);
                 }
             }
 
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Houve um erro na leitura do arquivo. Tente novamente.");
         }
     }
 
     // method that displays more information on the medicine
-    private static void medicineInfo(int medicineNumber, String[] fileLineContent, String medicineName) {
+    public void medicineInfo(int medicineNumber, String[] fileLineContent, String medicineName) {
         System.out.printf("%n Dados do %dº medicamento encontrado por \"%s\" %n", medicineNumber, medicineName);
         System.out.println("| Nome: " + fileLineContent[0]);
         System.out.println("| Produto: " + fileLineContent[8]);
