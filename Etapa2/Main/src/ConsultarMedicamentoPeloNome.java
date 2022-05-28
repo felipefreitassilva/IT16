@@ -9,11 +9,10 @@ public class ConsultarMedicamentoPeloNome {
     // method to ask for the name of the medicine
     private String medicineName() {
         String medicineName;
+        Scanner input = new Scanner(System.in);
 
-        try (Scanner input = new Scanner(System.in)) {
-            System.out.print("Digite o nome do medicamento: ");
-            medicineName = input.nextLine();
-        }
+        System.out.print("Digite o nome do medicamento: ");
+        medicineName = input.nextLine();
 
         return medicineName;
     }
