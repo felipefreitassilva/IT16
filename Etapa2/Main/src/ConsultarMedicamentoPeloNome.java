@@ -26,7 +26,7 @@ public class ConsultarMedicamentoPeloNome {
 
         try {
             String fileLine;
-            String regex = ";";
+            String regex = ",";
             String[] fileLineContent;
             int medicineNumber = 1;
             boolean foundMedicine = false;
@@ -64,6 +64,6 @@ public class ConsultarMedicamentoPeloNome {
         System.out.println("| Nome: " + fileLineContent[0]);
         System.out.println("| Produto: " + fileLineContent[8]);
         System.out.println("| Apresentação: " + fileLineContent[9]);
-        System.out.println("| Valor PF Sem Impostos: R$ 6" + fileLineContent[13]);
+        System.out.println("| Valor PF Sem Impostos: R$ " + fileLineContent[13]);
     }
 }
