@@ -35,7 +35,7 @@ public class App {
 
     // displays the interface with all menu options
     private void menuInterface() {
-        System.out.println("\n/=======================================================\\");
+        System.out.println("\n/=========================================================================\\");
         System.out.println("|\tBEM-VINDO AO PROGRAMA");
         System.out.println("|");
         System.out.println("| ESCOLHA UMA DAS OPÇÕES ABAIXO PARA INICIAR");
@@ -43,7 +43,7 @@ public class App {
         System.out.println("| (2) BUSCA PELO CÓDIGO DE BARRAS");
         System.out.println("| (3) COMPARATIVO DA LISTA DE CONCESSÃO DE CRÉDITO TRIBUTÁRIO (PIS/COFINS) ");
         System.out.println("| (4) TERMINAR O PROGRAMA");
-        System.out.println("\\======================================================/");
+        System.out.println("\\=========================================================================/");
     }
 
     private void handleChoice(int choice) {
@@ -52,10 +52,10 @@ public class App {
                 consultarMedicamentoPeloNome.lookForMedicine();
                 break;
             case 2:
-                buscaPeloCodigoDeBarras.search();
+                buscaPeloCodigoDeBarras.lookForMedicine();
                 break;
             case 3:
-                comparativoDaListaDeConcessaoDeCreditoTributarioPISCOFINS.compare();
+                comparativoDaListaDeConcessaoDeCreditoTributarioPISCOFINS.compareCreditPercentuals();
                 break;
             case 4:
                 System.out.println("Obrigado por utilizar!\n");

@@ -12,20 +12,22 @@ public class ReadCSV {
 
         try {
             int lineNumber = 1;
+            String regex = ",";
             String fileLine = "";
             String[] fileLineContent;
 
             try (Scanner reader = new Scanner(csvFile)) {
-                while (reader.hasNext() && lineNumber <= 2) {
-                    fileLine = reader.nextLine();
-                    fileLineContent = fileLine.split(";");
+                // while (reader.hasNext()) {
+                fileLine = reader.nextLine();
+                fileLineContent = fileLine.split(regex);
 
-                    System.out.println("\nLine " + lineNumber + ": " + fileLine);
-                    for (int i = 0; i < fileLineContent.length; i++) {
-                        System.out.println("Column " + i + ": " + fileLineContent[i]);
-                    }
-                    lineNumber++;
+                System.out.println("\nLine " + lineNumber + ": " + fileLine);
+                for (int i = 0; i < fileLineContent.length; i++) {
+                    System.out.println("Column " + i + ": " + fileLineContent[i]);
                 }
+
+                lineNumber++;
+                // }
             }
 
         } catch (Exception e) {

@@ -23,3 +23,6 @@
 hs_err_pid*
 replay_pid*
 .vscode/launch.json
+*.xlsx
+Etapa2/TA_PRECO_MEDICAMENTO_OLD.csv
+*.txt
