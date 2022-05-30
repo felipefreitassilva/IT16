@@ -21,36 +21,35 @@ public class ConsultarMedicamentoPeloNome {
     public void lookForMedicine() {
         String medicineName = medicineName();
 
-        final String FILE_PATH = "D:/Programming/GitHub/IT16/Etapa2/TA_PRECO_MEDICAMENTO.csv";
+        final String FILE_PATH = "Etapa2\\TA_PRECO_MEDICAMENTO.csv";
         File csvfile = new File(FILE_PATH);
 
         try {
             String fileLine;
-            String regex = ",";
+            String regex = ";";
             String[] fileLineContent;
             int medicineNumber = 1;
             boolean foundMedicine = false;
+            Scanner reader = new Scanner(csvfile);
 
-            try (Scanner reader = new Scanner(csvfile)) {
-                // skip header when scanning
-                reader.nextLine();
+            // skip header when scanning
+            reader.nextLine();
 
-                while (reader.hasNext()) {
-                    fileLine = reader.nextLine();
-                    fileLineContent = fileLine.split(regex);
+            while (reader.hasNext()) {
+                fileLine = reader.nextLine();
+                fileLineContent = fileLine.split(regex);
 
-                    // if the file line contains the medicine and it was produced in 2020
-                    if ((fileLineContent[0].contains(medicineName.toUpperCase()))
-                            && (fileLineContent[38].contains("Sim"))) {
-                        medicineInfo(medicineNumber, fileLineContent, medicineName);
-                        foundMedicine = true;
-                        medicineNumber++;
-                    }
+                // if the file line contains the medicine and it was produced in 2020
+                if ((fileLineContent[0].contains(medicineName.toUpperCase()))
+                        && (fileLineContent[38].contains("Sim"))) {
+                    medicineInfo(medicineNumber, fileLineContent, medicineName);
+                    foundMedicine = true;
+                    medicineNumber++;
                 }
+            }
 
-                if (!foundMedicine) {
-                    System.out.printf("Infelizmente, não foram encontrados medicamentos por \"%s\".%n", medicineName);
-                }
+            if (!foundMedicine) {
+                System.out.printf("Infelizmente, não foram encontrados medicamentos por \"%s\".%n", medicineName);
             }
 
         } catch (Exception e) {
