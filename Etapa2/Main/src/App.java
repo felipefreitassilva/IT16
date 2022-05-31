@@ -1,5 +1,6 @@
-package Etapa2.Main.src;
+package etapa2.main.src;
 
+// import for reading user input
 import java.util.Scanner;
 
 public class App {
@@ -46,6 +47,7 @@ public class App {
         System.out.println("\\=========================================================================/");
     }
 
+    // depending on what the user chose, calls a different method
     private void handleChoice(int choice) {
         switch (choice) {
             case 1:

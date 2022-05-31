@@ -1,15 +1,19 @@
-package Etapa2.Main.src;
+package etapa2.main.src;
 
+// imports for reading the csv file, storing amounts and user input
 import java.io.File;
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Scanner;
+
+// import for the general reading configurations of the file
+import etapa2.CsvConfig;
 
 public class BuscaPeloCodigoDeBarras {
 
     // method to ask for the bar code
     private String getBarCode() {
-        String barCode;
         Scanner input = new Scanner(System.in);
+        String barCode;
 
         System.out.print("Digite o código de barras: ");
         barCode = input.nextLine();
@@ -17,18 +21,18 @@ public class BuscaPeloCodigoDeBarras {
         return barCode;
     }
 
-    // method that scans the csv file for the medicine acording to its name
+    // method that scans the csv file for the medicine acording to its bar code
     public void lookForMedicine() {
         String barCode = getBarCode();
 
-        final String FILE_PATH = "Etapa2\\TA_PRECO_MEDICAMENTO.csv";
+        final String FILE_PATH = CsvConfig.FILE_PATH;
         File csvfile = new File(FILE_PATH);
 
         String fileLine;
-        String regex = ";";
+        String regex = CsvConfig.COLUMN_SEPARATOR;
         String[] fileLineContent;
         boolean foundMedicine = false;
-        ArrayList<Double> pmcAmount = new ArrayList<Double>();
+        ArrayList<Double> pmcAmount = new ArrayList<>();
 
         try (Scanner reader = new Scanner(csvfile)) {
             // skip header when scanning
@@ -49,7 +53,9 @@ public class BuscaPeloCodigoDeBarras {
                     }
 
                     if (fileLineContent[5].equals(barCode)) {
-                        // converting the String containing the pmc 0% value to a number
+                        // converting the String containing the [PMC 0%] value to a number
+                        // the replace function is there because in the csv file numbers are represented
+                        // by a comma (,), but in Java by a period (.)
                         double pmc = Double.parseDouble(fileLineContent[23].replace(",", "."));
                         pmcAmount.add(pmc);
                         foundMedicine = true;
@@ -61,11 +67,11 @@ public class BuscaPeloCodigoDeBarras {
                 medicineInfo(extremePmc(pmcAmount), barCode);
             } else {
                 System.out.printf("Infelizmente, não foram encontrados medicamentos por \"%s\".%n", barCode);
-                lookAgain();
+                handleUserResponse(lookAgain());
             }
 
         } catch (Exception e) {
-            System.out.println("Houve um erro na leitura do arquivo. Tente novamente." + e);
+            System.out.println("Houve um erro na leitura do arquivo. Tente novamente.");
         }
     }
 
@@ -91,35 +97,35 @@ public class BuscaPeloCodigoDeBarras {
         double highestPmc = extremePmc[1];
         double lowestPmc = extremePmc[0];
         double pmcDifference = highestPmc - lowestPmc;
-        System.out.printf("%n Dados dos medicamentos encontrado por \"%s\" %n", barCode);
 
+        System.out.printf("%n Dados dos medicamentos encontrado por \"%s\" %n", barCode);
         System.out.printf("| PMC mais alto: %.2f %n", highestPmc);
         System.out.printf("| PMC mais baixo: %.2f %n", lowestPmc);
         System.out.printf("| Diferença entre PMC's: %.2f %n", pmcDifference);
     }
 
-    // method to ask the user if he wished to try another search
-    private void lookAgain() {
-        Scanner input = new Scanner(System.in);
-        String userResponse;
-        System.out.println("Buscar novamente? (Sim / Nao)");
-        userResponse = input.nextLine();
-        if (handleUserResponse(userResponse)) {
-            lookForMedicine();
+    // method to analyse user response and determin if program should run again
+    private boolean handleUserResponse(String userResponse) {
+        userResponse = userResponse.toLowerCase();
+        switch (userResponse) {
+            case "sim":
+                return true;
+            case "nao":
+                return false;
+            default:
+                System.out.println("Valor inválido. Tente novamente. \n");
+                return handleUserResponse(lookAgain());
         }
     }
 
-    // method to analyse user response and determin if program should run again
-    private boolean handleUserResponse(String userResponse) {
-        userResponse = userResponse.toUpperCase();
-        switch (userResponse) {
-            case "SIM":
-                return true;
-            case "NAO":
-                return false;
-            default:
-                System.out.println("Valor inválido. Tente novamente.");
-                return false;
-        }
+    // method to ask the user if he wishes to try another search
+    private String lookAgain() {
+        Scanner input = new Scanner(System.in);
+        String userResponse;
+
+        System.out.print("Buscar novamente? (Sim / Nao)\t");
+        userResponse = input.nextLine();
+
+        return userResponse;
     }
 }

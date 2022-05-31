@@ -1,21 +1,25 @@
-package Etapa2.Main.src;
+package etapa2.main.src;
 
+// imports for reading the csv file and user input
 import java.io.File;
 import java.util.Scanner;
+
+// import for the general reading configurations of the file
+import etapa2.CsvConfig;
 
 public class ComparativoDaListaDeConcessaoDeCreditoTributarioPISCOFINS {
 
     // method that scans the csv file for the medicine acording to its name
     public void compareCreditPercentuals() {
 
-        final String FILE_PATH = "Etapa2\\TA_PRECO_MEDICAMENTO.csv";
+        final String FILE_PATH = CsvConfig.FILE_PATH;
         File csvfile = new File(FILE_PATH);
 
         int negativeAmount = 0;
         int neutralAmount = 0;
         int positiveAmount = 0;
         String fileLine;
-        String regex = ";";
+        String regex = CsvConfig.COLUMN_SEPARATOR;
         String[] fileLineContent;
 
         try (Scanner reader = new Scanner(csvfile)) {
@@ -26,9 +30,9 @@ public class ComparativoDaListaDeConcessaoDeCreditoTributarioPISCOFINS {
                 fileLine = reader.nextLine();
                 fileLineContent = fileLine.split(regex);
 
-                // since piscofins values are on column 37, I need the product to have at least
-                // this many columns
-                if (fileLineContent.length > 36) {
+                // since piscofins values are on column 37 and 2020 production on column 38, I
+                // need the product to have at least this many columns
+                if ((fileLineContent.length > 38) && (fileLineContent[38].contains("Sim"))) {
                     if (fileLineContent[37].equals("Negativa")) {
                         negativeAmount++;
                     } else if (fileLineContent[37].equals("Neutra")) {
@@ -77,14 +81,14 @@ public class ComparativoDaListaDeConcessaoDeCreditoTributarioPISCOFINS {
         System.out.printf("Negativa\t%.2f%%\t\t%s %n", negativePercent, asteriscAmount(negativePercent));
         System.out.printf("Neutra\t\t%.2f%%\t\t%s %n", neutralPercent, asteriscAmount(neutralPercent));
         System.out.printf("Positiva\t%.2f%%\t\t%s %n", positivePercent, asteriscAmount(positivePercent));
-        System.out.printf("TOTAL\t\t%.2f%%", total);
+        System.out.printf("TOTAL\t\t%.2f%% %n", total);
     }
 
     // method to return asterisc String
     private String asteriscAmount(double percent) {
         String asteriscs = "";
 
-        for (int i = 0; i < percent; i++) {
+        for (int i = 1; i <= percent; i++) {
             asteriscs += "*";
         }
 
