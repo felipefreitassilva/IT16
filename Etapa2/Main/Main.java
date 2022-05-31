@@ -1,6 +1,6 @@
-package Etapa2.Main;
+package etapa2.main;
 
-import Etapa2.Main.src.App;
+import etapa2.main.src.App;
 
 public class Main {
     public static void main(String[] args) {
