@@ -1,24 +1,26 @@
-package Etapa2.Testes;
+package etapa2.testes;
 
 import java.io.File;
 import java.util.Scanner;
 
+import etapa2.CsvConfig;
+
 public class ReadCSV {
     public static void main(String[] args) {
-        final String FILE_PATH = "D:/Programming/GitHub/IT16/Etapa2/TA_PRECO_MEDICAMENTO.csv";
+        final String FILE_PATH = CsvConfig.FILE_PATH;
         File csvFile = new File(FILE_PATH);
 
         int lineNumber = 1;
-        String regex = ";";
-        String fileLine = "";
+        String fileLine;
+        final String COLUMN_SEPARATOR = CsvConfig.COLUMN_SEPARATOR;
         String[] fileLineContent;
 
         try (Scanner reader = new Scanner(csvFile)) {
-            while (reader.hasNext() && lineNumber <= 5) {
+            while ((reader.hasNext()) && (lineNumber < 3)) {
                 fileLine = reader.nextLine();
-                fileLineContent = fileLine.split(regex);
+                fileLineContent = fileLine.split(COLUMN_SEPARATOR);
 
-                System.out.println("\nLine " + lineNumber + ": " + fileLine);
+                System.out.printf("%n Line %d: %s %n", lineNumber, fileLine);
                 for (int i = 0; i < fileLineContent.length; i++) {
                     // all numbers on the csv file were converted to String by using ' character
                     // before, and they are now being removed
@@ -26,7 +28,7 @@ public class ReadCSV {
                     if (((i >= 3) && (i <= 7)) && (lineNumber != 1)) {
                         fileLineContent[i] = fileLineContent[i].substring(1);
                     }
-                    System.out.println("Column " + i + ": " + fileLineContent[i]);
+                    System.out.printf("Column %d: %s %n", i, fileLineContent[i]);
                 }
 
                 lineNumber++;
