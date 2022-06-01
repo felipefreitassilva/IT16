@@ -66,8 +66,10 @@ public class BuscaPeloCodigoDeBarras {
             if (foundMedicine) {
                 medicineInfo(extremePmc(pmcAmount), barCode);
             } else {
-                System.out.printf("Infelizmente, não foram encontrados medicamentos por \"%s\".%n", barCode);
-                handleUserResponse(lookAgain());
+                System.out.printf("%nInfelizmente, não foram encontrados medicamentos por \"%s\".%n", barCode);
+                if (handleUserResponse(lookAgain())) {
+                    lookForMedicine();
+                }
             }
 
         } catch (Exception e) {
